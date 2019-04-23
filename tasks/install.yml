@@ -2,7 +2,8 @@
   command: docker exec php /bin/bash -c '/usr/local/bin/composer global config http-basic.repo.magento.com "{{ repo_api_key }}" "{{ repo_secret_key }}"'
 
 - name: Check If Magento Already Installed
-  stat: "path={{ magento_dir }}/vendor"
+  stat:
+    path: "{{ magento_dir }}/vendor"
   register: magento_vendors
 
 - name: Create the Magento project using composer

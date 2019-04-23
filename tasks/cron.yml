@@ -2,7 +2,7 @@
 
 - name: Ran jobs by schedule
   cron:
-    name: "Ran jobs by schedule"
+    name: "Run jobs by schedule"
     minute: "*/1"
     hour: "*"
     job: docker exec php /bin/bash -c '/usr/local/bin/php "{{ magento_dir }}"/bin/magento cron:run | grep -v 'Ran jobs by schedule'' >> "{{ magento_dir }}"/var/log/magento.cron.log

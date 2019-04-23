@@ -1,4 +1,5 @@
 ---
+
 mage_admin_uri: admin
 mage_key: d6cd532e44327750a4c9aa6100dbb15f
 mage_db_host: 192.168.32.104:4306
