@@ -26,12 +26,12 @@
 - name: Set files permissions to g+w
   shell: find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} \;
   args:
-    chdir: /var/www/magento/
+    chdir: "{{ repo_secret_key }}"
 
 - name: Set directories to g+ws
   shell: find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} \;
   args:
-    chdir: /var/www/magento/
+    chdir: "{{ repo_secret_key }}"
 
 - name: Set permissions to magento
   file:
@@ -42,7 +42,7 @@
 
 - name: Set permission u+x to bin/magento
   file:
-    path: /var/www/magento/bin/magento
+    path: "{{ repo_secret_key }}/bin/magento"
     owner: www-data
     group: www-data
     mode: u+x
