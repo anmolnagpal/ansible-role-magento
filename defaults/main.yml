@@ -1,0 +1,25 @@
+---
+mage_admin_uri: admin
+mage_key: d6cd532e44327750a4c9aa6100dbb15f
+mage_db_host: 192.168.32.104:4306
+mage_db_name: magento
+mage_db_user: root
+mage_db_pass: root
+mage_language: en_US
+mage_currency: ZAR
+mage_timezone: Africa/Johannesburg
+mage_rewrites: 1
+mage_secure: 0
+mage_url: http://192.168.32.104
+mage_secure_url: https://192.168.32.104
+mage_admin_user: admin
+mage_admin_pass: m@g3nt0
+mage_admin_email: admin@newmagento.com
+mage_admin_first_name: magento
+mage_admin_last_name: user
+magento_dir: /var/www/magento
+repo_api_key: 075facef6f4174d28be1e12c77b8bbc7ww
+repo_secret_key: 63514b02427b9d06408ce7121c5b7769www
+
+
+

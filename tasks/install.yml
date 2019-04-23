@@ -1,0 +1,49 @@
+- name: Set your Magento repo global config using composer
+  command: docker exec php /bin/bash -c '/usr/local/bin/composer global config http-basic.repo.magento.com "{{ repo_api_key }}" "{{ repo_secret_key }}"'
+
+- name: Check If Magento Already Installed
+  stat: "path={{ magento_dir }}/vendor"
+  register: magento_vendors
+
+- name: Create the Magento project using composer
+  command: docker exec php /bin/bash -c '/usr/local/bin/composer create-project --repository=https://repo.magento.com/ magento/project-community-edition "{{ magento_dir }}"'
+  when: not magento_vendors.stat.exists
+
+- name: Ensure Magento Command Line Is Executable
+  file:
+    path: "{{ magento_dir }}/bin/magento"
+    state: touch
+    mode: "u+x,g+x"
+
+- name: Check If Magento Is Already Configured
+  stat: "path={{ magento_dir }}/app/etc/env.php"
+  register: magento_config
+
+- name: Install Magento
+  command: docker exec php /bin/bash -c '"{{ magento_dir }}"/bin/magento setup:install --backend-frontname="{{ mage_admin_uri }}" --key="{{ mage_key }}" --db-host="{{ mage_db_host }}" --db-name="{{ mage_db_name }}" --db-user="{{ mage_db_user }}" --db-password="{{ mage_db_pass }}" --language="{{ mage_language }}" --currency="{{ mage_currency }}" --timezone="{{ mage_timezone }}"  --base-url="{{ mage_url }}"  --admin-user="{{ mage_admin_user }}" --admin-password="{{ mage_admin_pass }}" --admin-email="{{ mage_admin_email }}" --admin-firstname="{{ mage_admin_first_name }}" --admin-lastname="{{ mage_admin_last_name }}" --cleanup-database'
+  when: not magento_config.stat.exists
+
+- name: Set files permissions to g+w
+  shell: find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} \;
+  args:
+    chdir: /var/www/magento/
+
+- name: Set directories to g+ws
+  shell: find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} \;
+  args:
+    chdir: /var/www/magento/
+
+- name: Set permissions to magento
+  file:
+    path: "{{ magento_dir }}"
+    owner: www-data
+    group: www-data
+    recurse: yes
+
+- name: Set permission u+x to bin/magento
+  file:
+    path: /var/www/magento/bin/magento
+    owner: www-data
+    group: www-data
+    mode: u+x
+
